@@ -1,0 +1,13 @@
+name: Print
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  PrintLine:
+    runs-on: [self-hosted, linux, X64, linuxrunner]
+
+    steps:
+      - name: printLine
+        run:
+           echo "From Github Actions "
