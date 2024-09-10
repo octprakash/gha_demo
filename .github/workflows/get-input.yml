@@ -24,3 +24,8 @@ jobs:
         run: |
           echo "Change Request Number --------- : ${{ inputs.change-request }}"
     
+
+      - name: Production deployment
+        run: |
+          echo "doing prodcution deployment"
+    
