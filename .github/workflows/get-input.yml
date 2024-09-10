@@ -19,13 +19,17 @@ jobs:
         with:
           fetch-depth: 0
     
-      - name: Change request
-        shell: bash
+      - name: Change request        
+        id: check_input
         run: |
-          echo "Change Request Number --------- : ${{ inputs.change-request }}"
-    
+          if  ${{ inputs.change-request != '' }}; then
+              echo "Change Request Number --------- : ${{ inputs.change-request }}"
+          else
+              echo "Branch=true" >> $GITHUB_OUTPUT
+          fi    
 
       - name: Production deployment
+        if: ${{ steps.check_input.outputs.Branch == 'true' }}
         run: |
           echo "doing prodcution deployment"
     
