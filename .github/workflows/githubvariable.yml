@@ -2,6 +2,16 @@ name: GitHubVariable
 on:
   workflow_call:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - development
+          - staging
+          - production  
 
 jobs:
   PrintLine:
@@ -17,5 +27,17 @@ jobs:
         shell: bash
         run: |
           echo "doing prodcution deployment"
-          echo "GITHUB_REPOSITORY is $GITHUB_REPOSITORY" 
+          echo "GITHUB_REPOSITORY is $GITHUB_REPOSITORY"
+          REPO=$(echo $GITHUB_REPOSITORY | cut -d "/" -f 2)
+          BRANCH=$(echo ${GITHUB_REF#refs/heads/})
+          echo "repo_name=$REPO" >> $GITHUB_ENV
+          echo "branch_name=$BRANCH" >> $GITHUB_ENV          
+          echo "Repo is $REPO"
+          echo "Branch name is $BRANCH"      
+
+      - name: Do deployment
+        uses: ./.github/workflows/print.yml
+        env:
+          BRANCH_NAME: ${{ env.branch_name }}
+         
     
