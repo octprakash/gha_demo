@@ -1,0 +1,26 @@
+name: GetInput
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      change-request:
+        description: 'Enter the Change Request Number'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  PrintLine:
+    runs-on: [self-hosted, linux, X64, linuxrunner]
+
+    steps:
+      - name: Checkout repository content
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+    
+      - name: Change request
+        shell: bash
+        run: |
+          echo "Change Request Number --------- : ${{ inputs.change-request }}"
+    
